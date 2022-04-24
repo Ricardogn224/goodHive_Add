@@ -4,7 +4,9 @@ import { useState } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { useCombobox } from 'downshift'
-import { menuStyles, comboboxStyles} from '../lib/utils'
+
+import { menuStyles } from '../lib/utils'
+import useWeb3 from '../lib/wallet/use-web3'
 
 const navigation = [
   { name: 'Talents', href: '#', current: true },
@@ -46,6 +48,11 @@ export default function Home() {
       )
     },
   })
+
+  const {
+    connectedAddress,
+    connectWallet
+  } = useWeb3()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -93,8 +100,9 @@ export default function Home() {
                     className={
                       'bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded-md text-sm font-medium'
                     }
+                    onClick={connectWallet}
                   >
-                    Connect to Web3
+                    { connectedAddress ? connectedAddress : 'Connect to Web3' }
                   </button>
                 </div>
               </div>
@@ -130,7 +138,7 @@ export default function Home() {
 
       <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <main>
-          <div>
+          <div { ...getComboboxProps() }>
             <label htmlFor="first-name" className="">
               Location
             </label>
