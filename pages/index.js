@@ -138,36 +138,61 @@ export default function Home() {
 
       <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <main>
-          <div { ...getComboboxProps() }>
-            <label htmlFor="first-name" className="">
-              Location
-            </label>
-            <input {...getInputProps()} className="ml-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
-            <button
-              type="button"
-              {...getToggleButtonProps()}
-              aria-label="toggle menu"
-              className='ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
-            >
-              Search
-            </button>
+          <div className="flex flex-col">
+            <div className="flex flex-row">
+              <div className="">
+                <label htmlFor="skill" className="leading-10 inline-block w-20">
+                  Skill
+                </label>
+              </div>
+              <div>
+                <input id="skill" placeholder="Try Solidity, Rust, EthersJs..." className="w-[30vw] ml-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+              </div>
+            </div>
+
+            <div className="flex flex-row mt-5">
+              <div { ...getComboboxProps() }>
+                <label {...getLabelProps()} className="leading-10 inline-block w-20">
+                  Location
+                </label>
+              </div>
+              <div className="relative">
+                <div className="absolute">
+                  <input {...getInputProps()}  placeholder="France, London, New York..." className="w-[30vw] ml-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                  <ul {...getMenuProps()} style={menuStyles}>
+                    {isOpen &&
+                      inputItems.map((item, index) => (
+                        <li
+                          style={
+                            highlightedIndex === index
+                              ? { backgroundColor: '#bde4ff' }
+                              : {}
+                          }
+                          key={`${item}${index}`}
+                          {...getItemProps({ item, index })}
+                        >
+                          {item}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+                <div className="mt-16">
+                  <button
+                    type="button"
+                    aria-label="toggle menu"
+                    className='ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
+                  >
+                    Find a Talent
+                  </button>
+                  <span>
+                    <a>or Add a Project</a>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-          <ul {...getMenuProps()} style={menuStyles}>
-            {isOpen &&
-              inputItems.map((item, index) => (
-                <li
-                  style={
-                    highlightedIndex === index
-                      ? { backgroundColor: '#bde4ff' }
-                      : {}
-                  }
-                  key={`${item}${index}`}
-                  {...getItemProps({ item, index })}
-                >
-                  {item}
-                </li>
-              ))}
-          </ul>
+
+
         </main>
       </div>
 
