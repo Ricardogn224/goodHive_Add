@@ -5,8 +5,8 @@ import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { useCombobox } from 'downshift'
 
-import { menuStyles } from '../lib/utils'
-import useWeb3 from '../lib/wallet/use-web3'
+import { menuStyles } from '../../lib/utils'
+import useWeb3 from '../../lib/wallet/use-web3'
 
 const navigation = [
   { name: 'Talents', href: '#', current: true },
@@ -131,68 +131,82 @@ export default function Home() {
 
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">Looking for Talent</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Create Profile</h1>
         </div>
       </header>
 
-      <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <main>
+      
+      <main>
+        <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <div className="flex flex-row">
-              <div className="">
-                <label htmlFor="skill" className="leading-10 inline-block w-20">
-                  Skill
-                </label>
+              <div>
+                <input id="skill" placeholder="Firstname" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
               </div>
               <div>
-                <input id="skill" placeholder="Try Solidity, Rust, EthersJs..." className="w-[30vw] ml-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                <input id="skill" placeholder="Lastname" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
               </div>
             </div>
-
-            <div className="flex flex-row mt-5">
-              <div { ...getComboboxProps() }>
-                <label {...getLabelProps()} className="leading-10 inline-block w-20">
-                  Location
-                </label>
+            <div className="flex flex-row pt-5">
+              <div>
+                <input id="skill" placeholder="Country" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
               </div>
-              <div className="relative">
-                <div className="absolute">
-                  <input {...getInputProps()}  placeholder="France, London, New York..." className="w-[30vw] ml-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
-                  <ul {...getMenuProps()} style={menuStyles}>
-                    {isOpen &&
-                      inputItems.map((item, index) => (
-                        <li
-                          style={
-                            highlightedIndex === index
-                              ? { backgroundColor: '#bde4ff' }
-                              : {}
-                          }
-                          key={`${item}${index}`}
-                          {...getItemProps({ item, index })}
-                        >
-                          {item}
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-                <div className="mt-16">
-                  <button
-                    type="button"
-                    aria-label="toggle menu"
-                    className='ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
-                  >
-                    Find a Talent
-                  </button>
-                  <span>
-                    {/* TODO: add href to the project new page */}
-                    <Link href="/">or Add a Project</Link>
-                  </span>
-                </div>
+              <div>
+                <input id="skill" placeholder="City" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
               </div>
+            </div>
+            <div className="flex flex-row pt-5">
+              <div>
+                <input id="skill" placeholder="Email" type="email" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+              </div>
+              <div>
+                <input id="skill" placeholder="Telegram" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+              </div>
+            </div>
+            <div className="pt-5">
+              <textarea id="skill" placeholder="Description" className="w-[61vw] h-[10vw]  ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
             </div>
           </div>
-        </main>
-      </div>
+          <div className="pt-5">
+            <textarea id="skill" placeholder="Who are you in a few words...." className="w-[61vw] h-[10vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto py-2 px-4 sm:px-4 lg:px-8">
+          <h2 className="text-2xl font-bold text-gray-900">Skills</h2>
+        </div>
+
+        <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <div className="flex flex-col">
+            <div>
+              <input id="skill" placeholder="Solidity, Javascript, React..." className="w-[61vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto py-2 px-4 sm:px-4 lg:px-8">
+          <h2 className="text-2xl font-bold text-gray-900">Rate</h2>
+        </div>
+
+        <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <div className="flex flex-col">
+            <div>
+              <input id="skill" placeholder="Add your rate" type="number" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 text-right">
+          <div className="w-[61vw] ml-[1vw] mr-3 p-2">
+            <button className={
+              'bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded-md text-sm font-medium'
+            }>
+              Save Profile
+            </button>
+          </div>
+        </div>
+      </main>
+
 
       <hr />
       <footer className="max-w-7xl mx-auto py-4 px-2 sm:px-6 lg:px-8 text-xs text-gray-500 text-center">
