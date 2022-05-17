@@ -76,7 +76,7 @@ export default function Home() {
       walletAddress: connectedAddress
     })
 
-    if (data.success) alert('Profile saved')
+    if (data.msg === 'success') alert('Profile saved')
   },
   [
     firstname,
@@ -197,6 +197,7 @@ export default function Home() {
               <div>
                 <input
                   id="skill"
+                  name="lastname"
                   placeholder="Lastname"
                   className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
                   onChange={v => v}
@@ -206,15 +207,36 @@ export default function Home() {
             </div>
             <div className="flex flex-row pt-5">
               <div>
-                <input id="skill" placeholder="Country" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                <input
+                  id="country"
+                  name="country"
+                  placeholder="Country"
+                  className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                  onChange={(e) => setLastname(e.target.value)}
+                  value={lastname}
+                />
               </div>
               <div>
-                <input id="skill" placeholder="City" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                <input
+                  id="city"
+                  name="city"
+                  placeholder="City"
+                  className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                  onChange={(e) => setCity(e.target.value)}
+                  value={city}
+                />
               </div>
             </div>
             <div className="flex flex-row pt-5">
               <div>
-                <input id="skill" placeholder="Email" type="email" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                <input
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
               </div>
               <div>
                 <input id="skill" placeholder="Telegram" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />

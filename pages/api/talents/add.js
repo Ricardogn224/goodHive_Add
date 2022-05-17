@@ -23,8 +23,6 @@ export default async function handler(req, res) {
     walletAddress
   } = body
 
-  console.log({body})
-
   if (!walletAddress) return res.status(400).json({ message: "Wallet address must be defined" })
 
   await insertTalent({  
