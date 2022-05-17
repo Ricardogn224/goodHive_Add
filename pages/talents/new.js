@@ -1,11 +1,10 @@
 import Head from 'next/head' // TODO: add Head
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import axios from 'axios'
 import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { useCombobox } from 'downshift'
 
-import { menuStyles } from '../../lib/utils'
 import useWeb3 from '../../lib/wallet/use-web3'
 
 const navigation = [
@@ -28,30 +27,75 @@ const countries = [
 ]
 
 export default function Home() {
-  const [inputItems, setInputItems] = useState(countries)
-  const {
-    isOpen,
-    getLabelProps,
-    getMenuProps,
-    getInputProps,
-    getComboboxProps,
-    highlightedIndex,
-    getItemProps,
-  } = useCombobox({
-    items: inputItems,
-    onInputValueChange: ({ inputValue }) => {
-      setInputItems(
-        countries.filter(item =>
-          item.toLowerCase().startsWith(inputValue.toLowerCase()),
-        ),
-      )
-    },
-  })
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [email, setEmail] = useState('')
+  const [telegram, setTelegram] = useState('')
+  const [country, setCountry] = useState('')
+  const [city, setCity] = useState('')
+  const [isRemoteOnly, setIsRemoteOnly] = useState(false)
+  const [professionalXps, setProfessionalXps] = useState('')
+  const [profileHeadline, setProfileHeadline] = useState('')
+  const [linkedinUrl, setLinkedinUrl] = useState('')
+  const [githubUrl, setGithubUrl] = useState('')
+  const [stackoverflowUrl, setStackoverflowUrl] = useState('')
+  const [portfolioUrl, setPortfolioUrl] = useState('')
+  const [rate, setRate] = useState('')
+  const [walletAddress, setWalletAddress] = useState('')
+
 
   const {
     connectedAddress,
     connectWallet
   } = useWeb3()
+
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault()
+
+    if (!connectedAddress) {
+      alert('Connect web3 wallet first to save your profile')
+
+      return
+    }
+
+    const { data } = await axios.post('/api/talents/add', {
+      firstname,
+      lastname,
+      email,
+      telegram,
+      country,
+      city,
+      isRemoteOnly,
+      professionalXps,
+      profileHeadline,
+      linkedinUrl,
+      githubUrl,
+      stackoverflowUrl,
+      portfolioUrl,
+      rate,
+      walletAddress: connectedAddress
+    })
+
+    if (data.success) alert('Profile saved')
+  },
+  [
+    firstname,
+    lastname,
+    email,
+    telegram,
+    country,
+    city,
+    isRemoteOnly,
+    professionalXps,
+    profileHeadline,
+    linkedinUrl,
+    githubUrl,
+    stackoverflowUrl,
+    portfolioUrl,
+    rate,
+    connectedAddress
+  ])
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -141,10 +185,23 @@ export default function Home() {
           <div className="flex flex-col">
             <div className="flex flex-row">
               <div>
-                <input id="skill" placeholder="Firstname" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                <input
+                  id="firstname"
+                  name="firstname"
+                  placeholder="Firstname"
+                  className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                  onChange={(e) => setFirstname(e.target.value)}
+                  value={firstname}
+                />
               </div>
               <div>
-                <input id="skill" placeholder="Lastname" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                <input
+                  id="skill"
+                  placeholder="Lastname"
+                  className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                  onChange={v => v}
+                  value={''}
+                />
               </div>
             </div>
             <div className="flex flex-row pt-5">
@@ -198,9 +255,12 @@ export default function Home() {
 
         <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 text-right">
           <div className="w-[61vw] ml-[1vw] mr-3 p-2">
-            <button className={
-              'bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded-md text-sm font-medium'
-            }>
+            <button 
+              className={
+                'bg-blue-700 hover:bg-blue-800 text-white px-3 py-2 rounded-md text-sm font-medium'
+              }
+              onClick={e => handleSubmit(e)}
+            >
               Save Profile
             </button>
           </div>
