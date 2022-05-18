@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.multiSelectContainer{
+  max-height: 43px; /* FIXME: compute it with em size */
+}
+
+.searchWrapper {
+  display: flex;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.searchBox {
+  display: block;
+  flex: 1;
+  display: inline-block;
+  width: auto;
+}
+
+.optionListContainer {
+  display: inline-block;
+  left: 0.25em;
+  max-width: calc(61vw - 0.5em);
+}

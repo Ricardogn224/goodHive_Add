@@ -2,6 +2,7 @@ import Head from 'next/head' // TODO: add Head
 import Link from 'next/link'
 import { useState, useCallback } from 'react'
 import axios from 'axios'
+import Multiselect from 'multiselect-react-dropdown'
 import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
@@ -16,15 +17,6 @@ const navigation = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-
-const countries = [
-  'France',
-  'France Paris',
-  'Espagne',
-  'Portugal',
-  'États-Unis',
-  'Finlande'
-]
 
 export default function Home() {
   const [firstname, setFirstname] = useState('')
@@ -42,6 +34,7 @@ export default function Home() {
   const [portfolioUrl, setPortfolioUrl] = useState('')
   const [rate, setRate] = useState('')
   const [walletAddress, setWalletAddress] = useState('')
+  const [skills, setSkills] = useState([])
 
 
   const {
@@ -96,6 +89,14 @@ export default function Home() {
     connectedAddress
   ])
 
+  // TODO: fetch BDD to get skills
+  const options = [
+    "Option 1",
+    "Option 2",
+    "Option 3",
+    "Option 4",
+    "Option 5"
+  ]
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -106,7 +107,9 @@ export default function Home() {
               <div className="relative flex items-center justify-between h-16">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
-                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <Disclosure.Button
+                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  >
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -196,12 +199,12 @@ export default function Home() {
               </div>
               <div>
                 <input
-                  id="skill"
+                  id="lastname"
                   name="lastname"
                   placeholder="Lastname"
                   className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
-                  onChange={v => v}
-                  value={''}
+                  onChange={(e) => setLastname(e.target.value)}
+                  value={lastname}
                 />
               </div>
             </div>
@@ -212,8 +215,8 @@ export default function Home() {
                   name="country"
                   placeholder="Country"
                   className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
-                  onChange={(e) => setLastname(e.target.value)}
-                  value={lastname}
+                  onChange={(e) => setCountry(e.target.value)}
+                  value={country}
                 />
               </div>
               <div>
@@ -233,21 +236,33 @@ export default function Home() {
                   id="email"
                   name="email"
                   placeholder="Email"
+                  type="email"
                   className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                 />
               </div>
               <div>
-                <input id="skill" placeholder="Telegram" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                <input
+                  id="telegram"
+                  name="telegram"
+                  placeholder="Telegram"
+                  className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                  onChange={(e) => setTelegram(e.target.value)}
+                  value={telegram}
+                />
               </div>
-            </div>
-            <div className="pt-5">
-              <textarea id="skill" placeholder="Description" className="w-[61vw] h-[10vw]  ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
             </div>
           </div>
           <div className="pt-5">
-            <textarea id="skill" placeholder="Who are you in a few words...." className="w-[61vw] h-[10vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+            <textarea
+              id="profileHeadline"
+              name="telegram"
+              placeholder="Who are you in a few words...."
+              className="w-[61vw] h-[10vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+              onChange={(e) => setProfileHeadline(e.target.value)}
+              value={profileHeadline}
+            />
           </div>
         </div>
 
@@ -258,7 +273,15 @@ export default function Home() {
         <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <div>
-              <input id="skill" placeholder="Solidity, Javascript, React..." className="w-[61vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+              <Multiselect
+                placeholder={skills.length ? '' : 'Solidity, Javascript, React...'}
+                isObject={false}
+                options={options} // Options to display in the dropdown
+                selectedValues={skills} // Preselected value to persist in dropdown
+                className="max-w-[61vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                onSelect={setSkills} // Function will trigger on select event
+                onRemove={setSkills} // Function will trigger on remove event
+              />
             </div>
           </div>
         </div>
