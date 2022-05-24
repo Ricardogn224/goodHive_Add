@@ -1,4 +1,4 @@
-import { insertTalent } from '../../../lib/db/queries';
+import { insertTalent } from '../../../lib/db/queries'
 
 export default async function handler(req, res) {
   const { method, body } = req
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
   if (!walletAddress) return res.status(400).json({ message: "Wallet address must be defined" })
 
-  await insertTalent({  
+  await insertTalent({
     firstname: firstname || '',
     lastname: lastname || '',
     email: email || '',

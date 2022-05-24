@@ -1,6 +1,6 @@
 import Head from 'next/head' // TODO: add Head
 import Link from 'next/link'
-import { useState, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown'
 import { Disclosure } from '@headlessui/react'
@@ -35,6 +35,7 @@ export default function Home() {
   const [rate, setRate] = useState('')
   const [walletAddress, setWalletAddress] = useState('')
   const [skills, setSkills] = useState([])
+  const [skillsFromDB, setSkillsFromDB] = useState([])
 
 
   const {
@@ -88,6 +89,15 @@ export default function Home() {
     rate,
     connectedAddress
   ])
+
+  useEffect(() => {
+      (async () => {
+        const { data } = await axios.get('/api/talents/skills')
+
+        setSkillsFromDB(data)
+      })()
+    }, []
+  )
 
   // TODO: fetch BDD to get skills
   const options = [
@@ -275,9 +285,9 @@ export default function Home() {
             <div>
               <Multiselect
                 placeholder={skills.length ? '' : 'Solidity, Javascript, React...'}
-                isObject={false}
-                options={options} // Options to display in the dropdown
-                selectedValues={skills} // Preselected value to persist in dropdown
+                isObject={true}
+                options={skillsFromDB} // Options to display in the dropdown
+                displayValue="name" // Property to display in the dropdown options
                 className="max-w-[61vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
                 onSelect={setSkills} // Function will trigger on select event
                 onRemove={setSkills} // Function will trigger on remove event
