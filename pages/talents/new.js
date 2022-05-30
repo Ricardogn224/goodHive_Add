@@ -52,7 +52,34 @@ export default function Home() {
       return
     }
 
-    const { data } = await axios.post('/api/talents/add', {
+    const { data: isExists } = await axios.get(`/api/talents/${connectedAddress}?isExists`)
+
+    if (!isExists) {
+      const { data } = await axios.post('/api/talents/add', {
+        firstname,
+        lastname,
+        email,
+        telegram,
+        country,
+        city,
+        isRemoteOnly,
+        professionalXps,
+        profileHeadline,
+        linkedinUrl,
+        githubUrl,
+        stackoverflowUrl,
+        portfolioUrl,
+        rate,
+        walletAddress: connectedAddress
+      })
+
+      if (data.msg === 'success') alert('Profile saved')
+
+      return
+    }
+
+    // update profile
+    const { data } = await axios.post(`/api/talents/${connectedAddress}`, {
       firstname,
       lastname,
       email,
@@ -70,7 +97,7 @@ export default function Home() {
       walletAddress: connectedAddress
     })
 
-    if (data.msg === 'success') alert('Profile saved')
+    if (data.msg === 'success') alert('Profile updated')
   },
   [
     firstname,
@@ -91,22 +118,37 @@ export default function Home() {
   ])
 
   useEffect(() => {
-      (async () => {
-        const { data } = await axios.get('/api/talents/skills')
+    (async () => {
+      const { data } = await axios.get('/api/talents/skills')
 
-        setSkillsFromDB(data)
-      })()
-    }, []
-  )
+      setSkillsFromDB(data)
+    })()
+  }, [])
 
-  // TODO: fetch BDD to get skills
-  const options = [
-    "Option 1",
-    "Option 2",
-    "Option 3",
-    "Option 4",
-    "Option 5"
-  ]
+  useEffect(() => {
+    if(!connectedAddress) return
+
+    const getTalent = async (walletAddress) => {
+      return await axios.get(`/api/talents/${walletAddress}`)
+    }
+
+    getTalent(connectedAddress).then(({ data: talent }) => {
+      setFirstname(talent.firstname)
+      setLastname(talent.lastname)
+      setEmail(talent.email)
+      setTelegram(talent.telegram)
+      setCountry(talent.country)
+      setCity(talent.city)
+      setIsRemoteOnly(talent.is_remote_only)
+      setProfessionalXps(talent.profile_xps)
+      setProfileHeadline(talent.profile_headline)
+      setLinkedinUrl(talent.linkedin_url)
+      setGithubUrl(talent.githubUrl)
+      setStackoverflowUrl(talent.stackoverflow_url)
+      setPortfolioUrl(talent.portfolio_url)
+      setRate(talent.rate)
+    })
+  }, [connectedAddress])
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -271,7 +313,7 @@ export default function Home() {
               placeholder="Who are you in a few words...."
               className="w-[61vw] h-[10vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
               onChange={(e) => setProfileHeadline(e.target.value)}
-              value={profileHeadline}
+              defaultValue={profileHeadline}
             />
           </div>
         </div>
