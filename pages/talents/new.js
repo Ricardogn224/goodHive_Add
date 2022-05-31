@@ -37,8 +37,8 @@ export default function Home() {
   const [skills, setSkills] = useState([])
   const [skillsFromDB, setSkillsFromDB] = useState([])
 
-
   const {
+    signer,
     connectedAddress,
     connectWallet
   } = useWeb3()
@@ -52,9 +52,22 @@ export default function Home() {
       return
     }
 
+    let rawSignature = ''
+
+    try {
+      rawSignature = await signer.signMessage(
+        "Proof of ownership of the profile"
+      )
+    } catch (error) {
+      alert('Error while requesting signature:', error)
+
+      return
+    }
+
     const { data: isExists } = await axios.get(`/api/talents/${connectedAddress}?isExists`)
 
     if (!isExists) {
+      // TODO: add skills
       const { data } = await axios.post('/api/talents/add', {
         firstname,
         lastname,
@@ -70,7 +83,8 @@ export default function Home() {
         stackoverflowUrl,
         portfolioUrl,
         rate,
-        walletAddress: connectedAddress
+        walletAddress: connectedAddress,
+        signature: rawSignature
       })
 
       if (data.msg === 'success') alert('Profile saved')
@@ -94,7 +108,9 @@ export default function Home() {
       stackoverflowUrl,
       portfolioUrl,
       rate,
-      walletAddress: connectedAddress
+      walletAddress: connectedAddress,
+      signature: rawSignature,
+      skills
     })
 
     if (data.msg === 'success') alert('Profile updated')
@@ -114,7 +130,8 @@ export default function Home() {
     stackoverflowUrl,
     portfolioUrl,
     rate,
-    connectedAddress
+    connectedAddress,
+    skills
   ])
 
   useEffect(() => {
@@ -148,6 +165,11 @@ export default function Home() {
       setPortfolioUrl(talent.portfolio_url)
       setRate(talent.rate)
     })
+
+    // get skills
+    const getSkills = async ({  talentId}) => {
+      return await axios.get(`/api/talents/${talentId}/skills`)
+    }
   }, [connectedAddress])
 
   return (
@@ -328,7 +350,7 @@ export default function Home() {
               <Multiselect
                 placeholder={skills.length ? '' : 'Solidity, Javascript, React...'}
                 isObject={true}
-                options={skillsFromDB} // Options to display in the dropdown
+                options={skillsFromDB.length > 0 ? skillsFromDB : []} // Options to display in the dropdown
                 displayValue="name" // Property to display in the dropdown options
                 className="max-w-[61vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
                 onSelect={setSkills} // Function will trigger on select event

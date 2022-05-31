@@ -1,3 +1,5 @@
+import { ethers } from 'ethers'
+
 import { insertTalent } from '../../../lib/db/queries'
 
 export default async function handler(req, res) {
@@ -20,10 +22,31 @@ export default async function handler(req, res) {
     stackoverflowUrl,
     portfolioUrl,
     rate,
-    walletAddress
+    walletAddress,
+    signature
   } = body
 
-  if (!walletAddress) return res.status(400).json({ message: "Wallet address must be defined" })
+  if (!walletAddress) return res.status(400).json({ message: 'Wallet address must be defined' })
+
+  if (typeof signature !== 'string') {
+    return res.status(400).json({ message: 'Signature must be a string' })
+  }
+
+  if (typeof walletAddress !== 'string') {
+    return res
+      .status(400)
+      .json({ message: 'Wallet Address must be a string' })
+  }
+
+  const verifiedAddress = ethers.utils.verifyMessage(
+    "Proof of ownership of the profile",
+    signature
+  )
+
+  if (verifiedAddress.toLowerCase() !== walletAddress.toLowerCase())
+    return res
+      .status(401)
+      .json({ message: 'Signature does not match the claimed address' })
 
   await insertTalent({
     firstname: firstname || '',
