@@ -166,10 +166,6 @@ export default function Home() {
       setRate(talent.rate)
     })
 
-    // get skills
-    const getSkills = async ({  talentId}) => {
-      return await axios.get(`/api/talents/${talentId}/skills`)
-    }
   }, [connectedAddress])
 
   return (
