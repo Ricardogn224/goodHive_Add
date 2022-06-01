@@ -85,7 +85,7 @@ export default async function handler(req, res) {
 
     await updateSkillsOfTalent({ talentId, skillIds: skills.map(skill => skill.id) })
 
-    res.status(200).json({ msg: 'success' })
+    return res.status(200).json({ msg: 'success' })
   }
 }
 

@@ -33,7 +33,6 @@ export default function Home() {
   const [stackoverflowUrl, setStackoverflowUrl] = useState('')
   const [portfolioUrl, setPortfolioUrl] = useState('')
   const [rate, setRate] = useState('')
-  const [walletAddress, setWalletAddress] = useState('')
   const [skills, setSkills] = useState([])
   const [skillsFromDB, setSkillsFromDB] = useState([])
 
@@ -164,8 +163,14 @@ export default function Home() {
       setStackoverflowUrl(talent.stackoverflow_url)
       setPortfolioUrl(talent.portfolio_url)
       setRate(talent.rate)
-    })
+      const skillIds = talent.skills?.split(',')
 
+      setSkills(
+        skillIds?.length > 0 
+          ? skillIds.map(skillId => skillsFromDB.find(skill => skill.id === parseInt(skillId)))
+          : []
+      )
+    })
   }, [connectedAddress])
 
   return (
@@ -349,6 +354,7 @@ export default function Home() {
                 options={skillsFromDB.length > 0 ? skillsFromDB : []} // Options to display in the dropdown
                 displayValue="name" // Property to display in the dropdown options
                 className="max-w-[61vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                selectedValues={skills}
                 onSelect={setSkills} // Function will trigger on select event
                 onRemove={setSkills} // Function will trigger on remove event
               />
