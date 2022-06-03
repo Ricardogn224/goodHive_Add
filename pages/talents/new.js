@@ -368,8 +368,18 @@ export default function Home() {
 
         <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
-            <div>
-              <input id="skill" placeholder="Add your rate" type="number" className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+            <div className="relative flex">
+              <div className="absolute inset-y-0 left-3 pl-3 flex items-center pointer-events-none">
+                <span className="text-gray-400">USD</span>
+              </div>
+              <input
+                id="rate"
+                placeholder="Add your rate"
+                type="number"
+                className="w-[30vw] ml-[1vw] p-2 pl-12 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+                onChange={(e) => setRate(e.target.value)}
+                value={rate}
+              />
             </div>
           </div>
         </div>
