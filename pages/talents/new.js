@@ -156,7 +156,7 @@ export default function Home() {
       setCountry(talent.country)
       setCity(talent.city)
       setIsRemoteOnly(talent.is_remote_only)
-      setProfessionalXps(talent.profile_xps)
+      setProfessionalXps(talent.professional_xps)
       setProfileHeadline(talent.profile_headline)
       setLinkedinUrl(talent.linkedin_url)
       setGithubUrl(talent.githubUrl)
@@ -331,8 +331,18 @@ export default function Home() {
           </div>
           <div className="pt-5">
             <textarea
+              id="profileXps"
+              name="profileXps"
+              placeholder="Describe main experiences and used skills"
+              className="w-[61vw] h-[10vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+              onChange={(e) => setProfessionalXps(e.target.value)}
+              defaultValue={professionalXps}
+            />
+          </div>
+          <div className="pt-5">
+            <textarea
               id="profileHeadline"
-              name="telegram"
+              name="profileHeadline"
               placeholder="Who are you in a few words...."
               className="w-[61vw] h-[10vw] ml-[1vw] mr-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
               onChange={(e) => setProfileHeadline(e.target.value)}
