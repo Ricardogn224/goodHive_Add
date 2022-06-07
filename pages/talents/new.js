@@ -159,7 +159,7 @@ export default function Home() {
       setProfessionalXps(talent.professional_xps)
       setProfileHeadline(talent.profile_headline)
       setLinkedinUrl(talent.linkedin_url)
-      setGithubUrl(talent.githubUrl)
+      setGithubUrl(talent.github_url)
       setStackoverflowUrl(talent.stackoverflow_url)
       setPortfolioUrl(talent.portfolio_url)
       setRate(talent.rate)
@@ -370,6 +370,56 @@ export default function Home() {
               />
             </div>
           </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto py-2 px-4 sm:px-4 lg:px-8">
+          <h2 className="text-2xl font-bold text-gray-900">Social</h2>
+        </div>
+
+        <div className="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col">
+          <div>
+            <input
+              id="linkedinUrl"
+              name="linkedinUrl"
+              placeholder="Linkedin Url"
+              type="text"
+              className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+              onChange={(e) => setLinkedinUrl(e.target.value)}
+              value={linkedinUrl}
+            />
+          </div>
+          <div className="pt-5">
+            <input
+              id="githubUrl"
+              name="githubUrl"
+              placeholder="Github Url"
+              className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+              onChange={(e) => setGithubUrl(e.target.value)}
+              value={githubUrl}
+            />
+          </div>
+          <div className="pt-5">
+            <input
+              id="stackoverflowUrl"
+              name="stackoverflowUrl"
+              placeholder="Stackoverflow Url"
+              className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+              onChange={(e) => setStackoverflowUrl(e.target.value)}
+              value={stackoverflowUrl}
+            />
+          </div>
+          <div className="pt-5">
+            <input
+              id="portfolioUrl"
+              name="portfolioUrl"
+              placeholder="Portfolio Url"
+              className="w-[30vw] ml-[1vw] p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md"
+              onChange={(e) => setPortfolioUrl(e.target.value)}
+              value={portfolioUrl}
+            />
+          </div>
+        </div>
         </div>
 
         <div className="max-w-7xl mx-auto py-2 px-4 sm:px-4 lg:px-8">
