@@ -5,9 +5,11 @@ import Blockies from 'react-blockies'
 import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon, LocationMarkerIcon, CurrencyDollarIcon } from '@heroicons/react/outline'
 import { useCombobox } from 'downshift'
-
+import GeoLocResearch from './GeoLocResearch'
 import { menuStyles } from '../lib/utils'
 import useWeb3 from '../lib/wallet/use-web3'
+
+
 
 const navigation = [
   { name: 'Talents', href: '#', current: true },
@@ -15,9 +17,16 @@ const navigation = [
   { name: 'About', href: '#', current: false }
 ]
 
+
+function handleChange() {
+  console.log('Helo world')
+}
+
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+// geolocation
 
 const countries = [
   'France',
@@ -27,6 +36,11 @@ const countries = [
   'États-Unis',
   'Finlande'
 ]
+
+
+/* console.log('Avant l appelle')
+const test = geolocvalue;
+console.log('Après appelle de function flécé'); */
 
 const people = [
   {
@@ -77,6 +91,10 @@ export default function Home() {
     },
   })
 
+
+  const [filtered, setFiltered] = useState([]);
+
+
   const {
     connectedAddress,
     connectWallet
@@ -102,7 +120,7 @@ export default function Home() {
                 </div>
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex-shrink-0 flex items-center text-white text-xl">
-                      GoodHive
+                    GoodHive
                   </div>
                   <div className="hidden sm:block sm:ml-6">
                     <div className="flex space-x-4">
@@ -130,7 +148,7 @@ export default function Home() {
                     }
                     onClick={connectWallet}
                   >
-                    { connectedAddress ? connectedAddress : 'Connect to Web3' }
+                    {connectedAddress ? connectedAddress : 'Connect to Web3'}
                   </button>
                 </div>
               </div>
@@ -178,15 +196,17 @@ export default function Home() {
               </div>
             </div>
 
+            <GeoLocResearch handleChange={handleChange} />
+
             <div className="flex flex-row mt-5">
-              <div { ...getComboboxProps() }>
+              <div {...getComboboxProps()}>
                 <label {...getLabelProps()} className="leading-10 inline-block w-20">
                   Location
                 </label>
               </div>
               <div className="relative">
                 <div className="absolute">
-                  <input {...getInputProps()}  placeholder="France, London, New York..." className="w-[30vw] ml-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
+                  <input {...getInputProps()} placeholder="France, London, New York..." className="w-[30vw] ml-3 p-2 focus:ring-indigo-500 focus:border-indigo-500 border-gray-500 shadow rounded-md" />
                   <ul {...getMenuProps()} style={menuStyles}>
                     {isOpen &&
                       inputItems.map((item, index) => (
@@ -226,57 +246,57 @@ export default function Home() {
       <section>
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex">
           <ul role="list" className="flex-1 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {people.map((person) => (
-            <li
-              key={person.email}
-              className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
-            >
-              <div className="flex-1 flex flex-col p-8">
-                {/* <img className="wn-32 h-32 flex-shrink-0 mx-auto rounded-full" src={person.imageUrl} alt="" /> */}
-                <Blockies
-                  className="w-32 h-32 flex-shrink-0 mx-auto rounded-full"
-                  seed={person.address}
-                  size={12}
-                  scale={8}
-                />
-                <h3 className="mt-6 text-gray-900 text-sm font-medium">{person.name}</h3>
-                <dl className="mt-1 flex-grow flex flex-col justify-between">
-                  <dt className="sr-only">Title</dt>
-                  <dd className="text-gray-500 text-sm">{person.title}</dd>
-                  <dt className="sr-only">Skills</dt>
-                  <dd className="mt-3">
-                    {
-                      person.skills.map((skill, index) => (
-                        <span key={index} className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5 bg-blue-100 text-blue-800 m-0.5">
-                          {skill}
-                        </span>
-                      ))
-                    }
-                  </dd>
-                </dl>
-              </div>
-              <div>
-                <div className="-mt-px flex divide-x divide-gray-200">
-                  <div className="w-0 flex-1 flex">
-                    <span
-                      className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
-                    >
-                      <CurrencyDollarIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                      <span className="ml-3">{person.rate}</span>
-                    </span>
-                  </div>
-                  <div className="-ml-px w-0 flex-1 flex">
-                    <span
-                      className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
-                    >
-                      <LocationMarkerIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                      <span className="ml-3">{person.city}</span>
-                    </span>
+            {people.map((person) => (
+              <li
+                key={person.email}
+                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
+              >
+                <div className="flex-1 flex flex-col p-8">
+                  {/* <img className="wn-32 h-32 flex-shrink-0 mx-auto rounded-full" src={person.imageUrl} alt="" /> */}
+                  <Blockies
+                    className="w-32 h-32 flex-shrink-0 mx-auto rounded-full"
+                    seed={person.address}
+                    size={12}
+                    scale={8}
+                  />
+                  <h3 className="mt-6 text-gray-900 text-sm font-medium">{person.name}</h3>
+                  <dl className="mt-1 flex-grow flex flex-col justify-between">
+                    <dt className="sr-only">Title</dt>
+                    <dd className="text-gray-500 text-sm">{person.title}</dd>
+                    <dt className="sr-only">Skills</dt>
+                    <dd className="mt-3">
+                      {
+                        person.skills.map((skill, index) => (
+                          <span key={index} className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5 bg-blue-100 text-blue-800 m-0.5">
+                            {skill}
+                          </span>
+                        ))
+                      }
+                    </dd>
+                  </dl>
+                </div>
+                <div>
+                  <div className="-mt-px flex divide-x divide-gray-200">
+                    <div className="w-0 flex-1 flex">
+                      <span
+                        className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                        <span className="ml-3">{person.rate}</span>
+                      </span>
+                    </div>
+                    <div className="-ml-px w-0 flex-1 flex">
+                      <span
+                        className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
+                      >
+                        <LocationMarkerIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                        <span className="ml-3">{person.city}</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
           </ul>
         </div>
       </section>
